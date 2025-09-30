@@ -6,6 +6,8 @@
 //
 import SwiftUI
 
+enum Tab { case board, advice, list }
+
 struct BoardCard: View {
     let imageName: String
     let dateText: String
@@ -31,6 +33,8 @@ struct ontentView: View {
     let augustDates = ["5 Aug", "14 Aug", "23 Aug", "29 Aug"]
     let julyDates = ["2 Jul", "26 Jul"]
     
+    @State private var selected: Tab = .board
+    
     var body: some View {
         ZStack {
             // الخلفية
@@ -40,8 +44,6 @@ struct ontentView: View {
             VStack(spacing: 0) {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
-
-                        
                         // Header
                         HStack(alignment: .firstTextBaseline) {
                             Text("My Boards")
@@ -64,7 +66,7 @@ struct ontentView: View {
                         .padding(.horizontal, 20)
                         .padding(.top, 20)
                         
-                        // Current Board (افقي)
+                        // Current Board (أفقي)
                         Text("Current Board")
                             .font(.headline)
                             .padding(.horizontal, 20)
@@ -76,7 +78,6 @@ struct ontentView: View {
                             .padding(.horizontal, 20)
                         }
 
-                        
                         Divider().padding(.vertical, 10)
                         
                         // Previous Boards
@@ -122,47 +123,66 @@ struct ontentView: View {
                 }
             }
         }
-        // Bottom Tab Bar
+        // Bottom Tab Bar (كلكبل)
         .safeAreaInset(edge: .bottom) {
-            ZStack {
-                Color(red: 5/255, green: 7/255, blue: 36/255)
-                    .ignoresSafeArea()
-                
-                HStack {
-                    Spacer()
-                    VStack(spacing: 6) {
-                        Image(systemName: "light.panel")
-                            .font(.system(size: 20))
-                            .foregroundColor(.white)
-                        Text("Board")
-                            .font(.caption2)
-                            .foregroundColor(.white)
-                    }
-                    Spacer()
-                    VStack(spacing: 6) {
-                        Image(systemName: "face.smiling")
-                            .font(.system(size: 20))
-                            .foregroundColor(.white)
-                        Text("Advice")
-                            .font(.caption2)
-                            .foregroundColor(.white)
-                    }
-                    Spacer()
-                    VStack(spacing: 6) {
-                        Image(systemName: "list.bullet")
-                            .font(.system(size: 20))
-                            .foregroundColor(Color(red: 111/255, green: 182/255, blue: 157/255))
-                        Text("List")
-                            .font(.caption2)
-                            .foregroundColor(Color(red: 111/255, green: 182/255, blue: 157/255))
-                    }
-                    Spacer()
-                }
-                .frame(height: 64)
-                .padding(.top, 8)
-            }
-            .frame(height: 30)
+            bottomBar
         }
+    }
+    
+    // MARK: - Bottom Bar
+    private var bottomBar: some View {
+        ZStack {
+            Color(red: 5/255, green: 7/255, blue: 36/255)
+                .ignoresSafeArea()
+            
+            HStack(spacing: 0) {
+                tabButton(
+                    .board,
+                    title: "Board",
+                    systemImage: "light.panel",
+                    tint: .white
+                )
+                
+                tabButton(
+                    .advice,
+                    title: "Advice",
+                    systemImage: "face.smiling",
+                    tint: .white // غيّرها للأخضر لو تحب
+                )
+                
+                tabButton(
+                    .list,
+                    title: "List",
+                    systemImage: "list.bullet",
+                    tint: Color(red: 111/255, green: 182/255, blue: 157/255) // أخضر مثل كودك
+                )
+            }
+            .frame(height: 64)
+            .padding(.top, 8)
+        }
+        .frame(height: 64) // مهم لتوسيع الهت-إيريا
+    }
+    
+    // MARK: - Tab Button
+    @ViewBuilder
+    private func tabButton(_ tab: Tab, title: String, systemImage: String, tint: Color) -> some View {
+        Button {
+            // هنا اربط التنقل الفعلي حسب مشروعك
+            selected = tab
+            print("\(title) tapped")
+        } label: {
+            VStack(spacing: 6) {
+                Image(systemName: systemImage)
+                    .font(.system(size: 20))
+                Text(title)
+                    .font(.caption2)
+            }
+            .foregroundColor(tint)
+            .frame(maxWidth: .infinity)   // توزيع متساوي وتكبير الهت-إيريا
+            .padding(.vertical, 10)       // تكبير الهت-إيريا عموديًا
+            .contentShape(Rectangle())    // حتى الفراغ يكون قابل للضغط
+        }
+        .buttonStyle(.plain)
     }
 }
 
