@@ -24,7 +24,8 @@ struct ContentView2: View {
                     .foregroundColor(.black)
                 
                 Text("Once spoken, they can’t\nbe taken back.")
-                    .font(.system(size: 30))
+                    .font(.system(size: 30, design:.serif ))
+                    .fontWeight(.ultraLight)
                     .multilineTextAlignment(.leading)
                     .foregroundColor(.black)
             }
