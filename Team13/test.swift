@@ -35,6 +35,8 @@ struct ontentView: View {
     
     @State private var selected: Tab = .board
     
+    private let tabIconSize: CGFloat = 20 // نفس حجم الأيقونات في الكود الثاني
+    
     var body: some View {
         ZStack {
             // الخلفية
@@ -135,7 +137,7 @@ struct ontentView: View {
             Color(red: 5/255, green: 7/255, blue: 36/255)
                 .ignoresSafeArea()
             
-            HStack(spacing: 0) {
+            HStack(spacing: 4) {
                 tabButton(
                     .board,
                     title: "Board",
@@ -171,9 +173,9 @@ struct ontentView: View {
             selected = tab
             print("\(title) tapped")
         } label: {
-            VStack(spacing: 6) {
+            VStack(spacing: 4) {
                 Image(systemName: systemImage)
-                    .font(.system(size: 20))
+                    .font(.system(size: tabIconSize)) // استخدام الحجم الجديد للأيقونات
                 Text(title)
                     .font(.caption2)
             }
@@ -189,3 +191,4 @@ struct ontentView: View {
 #Preview {
     ontentView()
 }
+

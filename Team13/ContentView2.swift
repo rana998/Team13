@@ -4,12 +4,10 @@
 //
 //  Created by SADEEM on 10/04/1447 AH.
 //
-
-
 import SwiftUI
 
 struct ContentView2: View {
-    private let tabIconSize: CGFloat = 28  // حجم موحّد لكل الأيقونات
+    private let tabIconSize: CGFloat = 20  // تعديل الحجم ليتوافق مع التاب بار الثاني
     
     var body: some View {
         VStack {
@@ -123,3 +121,4 @@ struct ContentView2: View {
 #Preview {
     ContentView2()
 }
+
