@@ -83,7 +83,7 @@ struct Board_Screen: View {
                                     if let index = nailPositions.firstIndex(where: {
                                         nail in
                                         let distance = sqrt(pow(nail.x - location.x, 2) + pow(nail.y - location.y, 2))
-                                        return distance < 50
+                                        return distance < 10
                                     }){
                                         let removedNail = nailPositions[index]
                                         nailPositions.remove(at: index)
