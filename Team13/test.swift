@@ -28,7 +28,7 @@ struct BoardCard: View {
     }
 }
 
-// شاشة فاضية مؤقتًا
+// شاشة فاضية مؤقتًا لعرض البورد لاحقًا
 struct BoardScreen: View {
     var body: some View {
         Color(.systemBackground)
@@ -42,7 +42,8 @@ struct ontentView: View {
     let augustDates = ["5 Aug", "14 Aug", "23 Aug", "29 Aug"]
     let julyDates   = ["2 Jul", "26 Jul"]
     
-    @State private var selected: Tab = .board   // الافتراضي: البورد نشط
+    // مبدئيًا نختار List عشان يصير أخضر أول ما نشغّل
+    @State private var selected: Tab = .list
     private let tabIconSize: CGFloat = 20
     private let activeGreen = Color(red: 111/255, green: 182/255, blue: 157/255)
 
@@ -67,7 +68,7 @@ struct ontentView: View {
                             .padding(.horizontal, 20)
                             .padding(.top, 20)
                             
-                            // Current Board — كلكبل ويحول التبويب إلى Board
+                            // Current Board — كلكبل ويحوّل التبويب إلى Board
                             Text("Current Board").font(.headline).padding(.horizontal, 20)
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 16) {
@@ -85,7 +86,7 @@ struct ontentView: View {
                             // Previous Boards
                             Text("My Previous Boards").font(.headline).padding(.horizontal, 20)
                             
-                            // August
+                            // August — كلكبل
                             Text("August, 2025")
                                 .font(.subheadline).fontWeight(.semibold)
                                 .foregroundColor(.black.opacity(0.85))
@@ -103,7 +104,7 @@ struct ontentView: View {
                                 .padding(.horizontal, 20)
                             }
                             
-                            // July
+                            // July — كلكبل
                             Text("July, 2025")
                                 .font(.subheadline).fontWeight(.semibold)
                                 .foregroundColor(.black.opacity(0.85))
@@ -127,7 +128,9 @@ struct ontentView: View {
                     }
                 }
             }
-            .safeAreaInset(edge: .bottom) { bottomBar }   // البوتّم بار
+            .safeAreaInset(edge: .bottom) { bottomBar }
+            // تأكيد إن اللون الأخضر يبدأ على List عند التشغيل
+            .onAppear { selected = .list }
         }
     }
     
@@ -146,7 +149,7 @@ struct ontentView: View {
         .frame(height: 64)
     }
     
-    // MARK: - Tab Button (يغير اللون حسب التبويب النشط)
+    // MARK: - Tab Button (الأخضر للتبويب النشط)
     @ViewBuilder
     private func tabButton(_ tab: Tab, title: String, systemImage: String) -> some View {
         let isActive = (selected == tab)
@@ -155,11 +158,10 @@ struct ontentView: View {
             print("\(title) tapped")
         } label: {
             VStack(spacing: 4) {
-                Image(systemName: systemImage)
-                    .font(.system(size: tabIconSize))
+                Image(systemName: systemImage).font(.system(size: tabIconSize))
                 Text(title).font(.caption2)
             }
-            .foregroundColor(isActive ? activeGreen : .white)  // الأخضر للنشط، والأبيض لغيره
+            .foregroundColor(isActive ? activeGreen : .white)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 10)
             .contentShape(Rectangle())

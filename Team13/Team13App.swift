@@ -11,7 +11,7 @@ import SwiftUI
 struct Team13App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView2()
+            ontentView()
         }
     }
 }
