@@ -28,21 +28,14 @@ struct BoardCard: View {
     }
 }
 
-// شاشة فاضية مؤقتًا لعرض البورد لاحقًا
-struct BoardScreen: View {
-    var body: some View {
-        Color(.systemBackground)
-            .ignoresSafeArea()
-            .navigationTitle("Board")
-            .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
 struct ontentView: View {
     let augustDates = ["5 Aug", "14 Aug", "23 Aug", "29 Aug"]
     let julyDates   = ["2 Jul", "26 Jul"]
     
-    // مبدئيًا نختار List عشان يصير أخضر أول ما نشغّل
+    // فتح صفحة الرفلكشن
+    @State private var showReflection = false
+    
+    // التبويب النشط
     @State private var selected: Tab = .list
     private let tabIconSize: CGFloat = 20
     private let activeGreen = Color(red: 111/255, green: 182/255, blue: 157/255)
@@ -57,22 +50,40 @@ struct ontentView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             // Header
                             HStack(alignment: .firstTextBaseline) {
-                                Text("My Boards").font(.title2).fontWeight(.bold)
-                                Text("21 Sep, 2025").font(.subheadline).foregroundColor(.gray)
+                                Text("My Boards")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                
+                                Text("21 Sep, 2025")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
                                     .padding(.bottom, 2)
+                                
                                 Spacer()
-                                Button(action: {}) {
-                                    Image(systemName: "plus").foregroundColor(.black).font(.title2)
+                                // زر + يفتح الرفلكشن (بدون Back الأزرق)
+                                Button {
+                                    showReflection = true
+                                } label: {
+                                    Image(systemName: "plus")
+                                        .foregroundColor(.black)
+                                        .font(.title2)
                                 }
                             }
                             .padding(.horizontal, 20)
                             .padding(.top, 20)
                             
-                            // Current Board — كلكبل ويحوّل التبويب إلى Board
-                            Text("Current Board").font(.headline).padding(.horizontal, 20)
+                            // Current Board — يفتح Board_Screen بدون Back الأزرق
+                            Text("Current Board")
+                                .font(.headline)
+                                .padding(.horizontal, 20)
+                            
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 16) {
-                                    NavigationLink(destination: BoardScreen()) {
+                                    NavigationLink {
+                                        Board_Screen()
+                                            .navigationBarBackButtonHidden(true)
+                                            .toolbar(.hidden, for: .navigationBar)
+                                    } label: {
                                         BoardCard(imageName: "board_image", dateText: "24 Sep, 2025")
                                     }
                                     .buttonStyle(.plain)
@@ -84,17 +95,25 @@ struct ontentView: View {
                             Divider().padding(.vertical, 10)
                             
                             // Previous Boards
-                            Text("My Previous Boards").font(.headline).padding(.horizontal, 20)
+                            Text("My Previous Boards")
+                                .font(.headline)
+                                .padding(.horizontal, 20)
                             
-                            // August — كلكبل
+                            // August — روابط تفتح Board_Screen بدون Back الأزرق
                             Text("August, 2025")
-                                .font(.subheadline).fontWeight(.semibold)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
                                 .foregroundColor(.black.opacity(0.85))
                                 .padding(.horizontal, 20)
+                            
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 16) {
                                     ForEach(augustDates, id: \.self) { date in
-                                        NavigationLink(destination: BoardScreen()) {
+                                        NavigationLink {
+                                            Board_Screen()
+                                                .navigationBarBackButtonHidden(true)
+                                                .toolbar(.hidden, for: .navigationBar)
+                                        } label: {
                                             BoardCard(imageName: "board_image", dateText: date)
                                         }
                                         .buttonStyle(.plain)
@@ -104,15 +123,21 @@ struct ontentView: View {
                                 .padding(.horizontal, 20)
                             }
                             
-                            // July — كلكبل
+                            // July — روابط تفتح Board_Screen بدون Back الأزرق
                             Text("July, 2025")
-                                .font(.subheadline).fontWeight(.semibold)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
                                 .foregroundColor(.black.opacity(0.85))
                                 .padding(.horizontal, 20)
+                            
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 16) {
                                     ForEach(julyDates, id: \.self) { date in
-                                        NavigationLink(destination: BoardScreen()) {
+                                        NavigationLink {
+                                            Board_Screen()
+                                                .navigationBarBackButtonHidden(true)
+                                                .toolbar(.hidden, for: .navigationBar)
+                                        } label: {
                                             BoardCard(imageName: "board_image", dateText: date)
                                         }
                                         .buttonStyle(.plain)
@@ -128,13 +153,19 @@ struct ontentView: View {
                     }
                 }
             }
+            // وجهة صفحة الرفلكشن — بدون Back الأزرق
+            .navigationDestination(isPresented: $showReflection) {
+                ContentView()
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar(.hidden, for: .navigationBar)
+            }
             .safeAreaInset(edge: .bottom) { bottomBar }
-            // تأكيد إن اللون الأخضر يبدأ على List عند التشغيل
-            .onAppear { selected = .list }
+            .onAppear { selected = .list } // يبدأ على List أخضر
         }
     }
     
     // MARK: - Bottom Bar
+    @ViewBuilder
     private var bottomBar: some View {
         ZStack {
             Color(red: 5/255, green: 7/255, blue: 36/255).ignoresSafeArea()
