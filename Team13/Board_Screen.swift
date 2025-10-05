@@ -28,20 +28,11 @@ struct Board_Screen: View {
             
             VStack(spacing: 0){
                 HStack(alignment: .top, spacing: 22){
-                    
-                    VStack(spacing: 5) {
-                        Text("My Board")
-                            .font(.system(size: 24))
-                            .foregroundStyle(.white)
-                            .bold()
-                        
-                        Text(Date.now, style: .date)
-                            .font(.system(size: 11))
-                            .foregroundStyle(.white)
-                            .bold()
-                    }
-                    
-                    
+                Text("My Board")
+                        .font(.system(size: 24))
+                        .foregroundStyle(.white)
+                        .bold()
+                       
                     
                     Button(action: {
                         currentTool = currentTool == .nailRemover ? .none : .nailRemover
