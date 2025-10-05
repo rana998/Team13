@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct ContentView2: View {
+struct Advice_Screen: View {
     @State private var selectedTab: String = "Advice" // التاب الافتراضي
     
     private let tabIconSize: CGFloat = 20
@@ -119,5 +119,5 @@ struct TabBarButton: View {
 }
 
 #Preview {
-    ContentView2()
+    Advice_Screen()
 }
