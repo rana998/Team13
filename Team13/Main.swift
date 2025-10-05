@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct Team13App: App {
+struct YourApp: App {
     var body: some Scene {
         WindowGroup {
-            TabBar()
+            TabBar()   // << الجذر لازم يكون TabBar
         }
     }
 }

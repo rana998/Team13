@@ -2,10 +2,8 @@
 //  test.swift
 //  Team13
 //
-//  Created by Raghad Aljuid on 08/04/1447 AH.
-//
+//  Created by Raghad Aljuid on 08/04/1447 A
 import SwiftUI
-
 enum Tab { case board, advice, list }
 
 struct BoardCard: View {
@@ -156,5 +154,6 @@ struct ontentView: View {
 }
 
 #Preview {
-    NavigationStack { ontentView() }
+   TabBar()
+     
 }
