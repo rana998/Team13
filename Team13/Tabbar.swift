@@ -7,44 +7,39 @@
 import SwiftUI
 
 struct TabBar: View {
-    @State private var selectedTab = 3
-
-    init() {
+    @State var selectedTab = 1
+    
+    init(selectedTab : Int = 1) {
+        self._selectedTab = State(initialValue: selectedTab)
+        
         UITabBar.appearance().backgroundColor = UIColor(red: 5/255, green: 7/255, blue: 36/255, alpha: 1.0)
         UITabBar.appearance().unselectedItemTintColor = UIColor(.white)
     }
-
+    
     var body: some View {
         TabView(selection: $selectedTab) {
-            NavigationStack {
-                Board_Screen()
-            }
-            .tabItem {
-                Image(systemName: "light.panel")
-                Text("Board")
-            }
-            .tag(1)
-
-            NavigationStack {
-                Advice_Screen()
-            }
-            .tabItem {
-                Image(systemName: "face.smiling")
-                Text("Advice")
-            }
-            .tag(2)
-
-            // هنا صفحتك ontentView
-            NavigationStack {
-                ontentView()
-            }
-            .tabItem {
-                Image(systemName: "list.bullet")
-                Text("List")
-            }
-            .tag(3)
+            Board_Screen()
+                .tabItem {
+                    Image(systemName: "light.panel")
+                    Text("Board")
+                }
+                .tag(1)
+            
+            Advice_Screen()
+                .tabItem {
+                    Image(systemName: "face.smiling")
+                    Text("Advice")
+                }
+                .tag(2)
+            
+            BoardsList_Screen(selectedTab: $selectedTab)
+                .tabItem {
+                    Image(systemName: "list.bullet")
+                    Text("List")
+                }
+                .tag(3)
         }
-        .tint(Color(red: 111/255, green: 182/255, blue: 157/255))
+        .accentColor(Color(red: 111/255, green: 182/255, blue: 157/255))
     }
 }
 

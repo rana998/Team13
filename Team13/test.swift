@@ -154,6 +154,6 @@ struct ontentView: View {
 }
 
 #Preview {
-   TabBar()
+   ontentView()
      
 }

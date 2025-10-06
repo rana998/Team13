@@ -63,10 +63,10 @@ struct ContentView: View {
                     Spacer()
                     
                     // ✅ الانتقال إلى البورد (ما تغيّر)
-                    NavigationLink(destination: Board_Screen()
+                    NavigationLink(destination: TabBar(selectedTab: 1)
                         .navigationBarBackButtonHidden(true),
                                    isActive: $navigateToBoard) {
-                        EmptyView()
+                        //EmptyView()
                     }
                     
                     // 🔙 الانتقال إلى الصفحة الثانية فقط
