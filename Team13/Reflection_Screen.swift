@@ -32,7 +32,7 @@ struct Reflection_Screen: View {
                     
                     Spacer()
                     
-                    Text("What do i feel ?")
+                    Text("What do I feel ?")
                         .font(.custom("Snell Roundhand", size: 22))
                         .foregroundColor(.black)
                     

@@ -8,6 +8,7 @@ import SwiftUI
 
 struct BoardsList_Screen : View {
     
+    @State var showBoardDetail : Bool = false
     @State var showReflection : Bool = false
     @Binding var selectedTab : Int
     
@@ -26,7 +27,7 @@ struct BoardsList_Screen : View {
                     .font(.title2)
                     .fontWeight(.bold)
                 
-                Text("21 Sep, 2025")
+                Text(Date(), style: .date)
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding(.top, 6)
@@ -88,16 +89,16 @@ struct BoardsList_Screen : View {
                                 .font(.system(size: 15, weight: .bold))
                                 .padding(.trailing)
                                 .opacity(0.3)
-                                
+                            
                         }
-                                                
+                        
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack(spacing: 16){
                                 ForEach(augustDates, id: \.self){
                                     date in
                                     BoardCard(imageName: "board_image", dateText: date)
                                         .onTapGesture {
-                                            selectedTab = 1
+                                            showBoardDetail = true
                                         }.padding(.leading, 6)
                                 }
                                 
@@ -120,33 +121,40 @@ struct BoardsList_Screen : View {
                                 .font(.system(size: 15, weight: .bold))
                                 .padding(.trailing)
                                 .opacity(0.3)
-                                
+                            
                         }
-                                                
+                        
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack(spacing: 16){
                                 ForEach(julyDates, id: \.self){
                                     date in
                                     BoardCard(imageName: "board_image", dateText: date)
+                                        .padding(.leading, 6)
                                         .onTapGesture {
-                                            selectedTab = 1
-                                        }.padding(.leading, 6)
+                                            showBoardDetail = true
+                                        }
+                                    
+                                    
                                 }
                                 
                             } // end of HStack
                             
                         } // end of ScrollView (Horizontal)
                         
+                        
                     } // end of VStack
                     
                 } // end of ScrollView (Vertically)
+                .fullScreenCover(isPresented: $showBoardDetail) {
+                    BoardDetailView()
+                }
                 
                 
                 
                 
                 
             }.padding(.top, 65)
-             .padding(.horizontal, 20)
+                .padding(.horizontal, 20)
             
             
             
@@ -156,6 +164,52 @@ struct BoardsList_Screen : View {
     }
 }
 
+// ---------------------------------------------
+
+struct BoardDetailView: View {
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        ZStack {
+            Color(red: 246/255, green: 238/255, blue: 229/255)
+                .ignoresSafeArea()
+            
+            VStack {
+                // Back button
+                HStack {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "arrow.uturn.backward")
+                            .foregroundColor(.black)
+                    }
+                    Spacer()
+                } // end of HStack
+                .padding()
+                
+                TabView {
+                    Image("Board_Example")
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea(.all)
+                    
+                    
+                    Image("Reflection_Example")
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea(.all)
+                }
+                .tabViewStyle(.page)
+                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                
+            } // end of VStack
+        } // end of ZStack
+    }
+}
+
+
+
 #Preview {
     BoardsList_Screen(selectedTab: .constant(2))
+    
 }
