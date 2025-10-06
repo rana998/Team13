@@ -11,7 +11,7 @@ import SwiftUI
 struct YourApp: App {
     var body: some Scene {
         WindowGroup {
-            TabBar()   // << الجذر لازم يكون TabBar
+            Splashscreen()   // << الجذر لازم يكون TabBar
         }
     }
 }
